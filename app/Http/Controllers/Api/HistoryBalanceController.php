@@ -24,7 +24,11 @@ class HistoryBalanceController extends Controller
 
         //$user = HistoryBalance::where('sender_user_id', $userAuth->id)->get();
 
-        $user = DB::table('history_balances')->where('sender_user_id', '=', $userAuth->id)->get(); 
+        //$user = DB::table('history_balances')->where('sender_user_id', '=', $userAuth->id)->get(); 
+
+        $user = HistoryBalance::where([
+            ['user_id', '=', $userAuth->id],
+        ])->with(['sender', 'receiver'])->get(); 
 
         return response($user, 200);
     }

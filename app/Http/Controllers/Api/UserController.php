@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
-
 class UserController extends Controller
 {
     /**
@@ -36,7 +35,7 @@ class UserController extends Controller
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'balance' => $request->balance,
+            'balance' => 0,
             'password' => Hash::make($request->password)
         ]);
 
@@ -107,4 +106,15 @@ class UserController extends Controller
             'user' => $user
         ], 200);
     }
+
+    /*
+    public function logout(){   
+        if (Auth::check()) {
+            Auth::user()->token()->revoke();
+            return response()->json(['success' =>'logout_success'],200); 
+        }else{
+            return response()->json(['error' =>'api.something_went_wrong'], 500);
+        }
+    }
+    */
 }

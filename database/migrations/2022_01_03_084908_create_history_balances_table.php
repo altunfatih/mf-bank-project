@@ -18,6 +18,8 @@ class CreateHistoryBalancesTable extends Migration
             $table->string('sender_user_id');
             $table->double('amount');
             $table->string('received_user_id');
+            $table->double('balance');
+            $table->string('user_id');
             $table->timestamps();
         });
     }

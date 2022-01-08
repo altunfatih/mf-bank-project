@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\HistoryBalanceController;
 use App\Http\Controllers\Api\OperationsController;
 use App\Http\Controllers\Api\UserController;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -31,4 +32,6 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::put('/amountOperations', [OperationsController::class, 'amountOperations']);
 });
 
+Route::post('/users', [UserController::class, 'store']);
 Route::post('/login', [UserController::class, 'login']);
+//Route::get('/logout', [UserController::class, 'logout']);
