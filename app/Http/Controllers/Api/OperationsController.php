@@ -10,6 +10,20 @@ use Illuminate\Support\Facades\DB;
 
 class OperationsController extends Controller
 {
+    
+/**
+ * @OA\Schema(
+ *      title="Amount Operations",
+ *      description="Amount",
+ *      type="object",
+ *      schema="Amount",
+ *      properties={
+ *          @OA\Property(property="amount", type="integer"),
+ *          @OA\Property(property="received_user_email", type="string")
+ *      },
+ *      required={"amount", "received_user_email"}
+ * )
+ */
     public function amountOperations(Request $request) {
         $receivedUserEmail = $request->received_user_email;
         $user = auth()->user();
