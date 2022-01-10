@@ -30,6 +30,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     ]);
     Route::get('/historyOfUser', [UserController::class, 'historyOfUser']);
     Route::put('/amountOperations', [OperationsController::class, 'amountOperations']);
+    Route::delete('/users', [UserController::class, 'destroy']);
 });
 
 Route::post('/users', [UserController::class, 'store']);
