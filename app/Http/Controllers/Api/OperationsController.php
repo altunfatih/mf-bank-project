@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\HistoryBalance;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 class OperationsController extends Controller
@@ -40,19 +41,20 @@ class OperationsController extends Controller
         if ($amount < 1)
             return response("Gönderilecek para 1TL ve üzeri olmalı", 500);
         else
-            if($user->balance > $amount) {                   
+            if($user->balance >= $amount) {                   
                 $receivedUser->balance += $amount;
-
+    
                 $user->balance -= $amount;
                 $user->save();
                 $receivedUser->save();
-                
+                    
                 $this->saveHistory($user->id, $amount * -1, $receivedUser->id, $user->balance, $user->id);
                 $this->saveHistory($user->id, $amount, $receivedUser->id, $receivedUser->balance, $receivedUser->id);
                 //$this->saveHistory($receivedUser->id, $amount, $user->id, $receivedUser->balance);
             }
             else
                 return response("Yetersiz Bakiye. Bakiyeniz: $user->balance", 500);
+
     }
 
     public function saveHistory($sender_id, $amount, $received_id, $balance, $user_id) {
