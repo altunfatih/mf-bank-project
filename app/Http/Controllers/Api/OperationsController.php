@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class OperationsController extends Controller
 {
@@ -30,7 +31,13 @@ class OperationsController extends Controller
         $user = auth()->user();
 
         $receivedUser = User::where('email', $receivedUserEmail)->first();
+        //((^|, )(/^\d*(\.\d{2})?$/||/^\d*(\.\d{1})?$/))+$
 
+        Validator::make($request->all(), [
+            'amount' => 'required|regex:/^\d*(\.\d{2})?$/',
+            'received_user_email' => 'required',
+        ])->validate(); 
+        
         if($user->email == $receivedUserEmail)
             return response("Kendinize para yollayamazsınız!", 500);
 
@@ -47,7 +54,7 @@ class OperationsController extends Controller
                 $user->balance -= $amount;
                 $user->save();
                 $receivedUser->save();
-                    
+                
                 $this->saveHistory($user->id, $amount * -1, $receivedUser->id, $user->balance, $user->id);
                 $this->saveHistory($user->id, $amount, $receivedUser->id, $receivedUser->balance, $receivedUser->id);
                 //$this->saveHistory($receivedUser->id, $amount, $user->id, $receivedUser->balance);
