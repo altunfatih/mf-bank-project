@@ -88,7 +88,7 @@ class ExampleTest extends TestCase
 
         $this->actingAs($user)
         ->putJson('api/amountOperations', ['amount' => -10, 'received_user_email' => 'everest@everest.com'])
-        ->assertStatus(500);
+        ->assertStatus(422);
     }
 
     public function test_insufficient_balance() 
